@@ -16,6 +16,7 @@ const ListItem = ({
   variation = "default",
   onClick,
   dispatch = () => {},
+  customCloseInput,
   ...restProps
 }) => {
   const styles = { type, variation };
@@ -39,6 +40,8 @@ const ListItem = ({
       number: numberInput,
       show: true,
     };
+    setNameInput("");
+    setNumberInput("");
     dispatch({ type: "addPlayer", payload });
   };
 
@@ -66,20 +69,30 @@ const ListItem = ({
         <PlayerInfo>
           <InputPlayer
             defaultValue={data.number}
+            variation="number"
             type="number"
             onChange={handleChange(setNumberInput)}
             value={numberInput}
           />
           <InputPlayer
             defaultValue={data.name}
-            type="name"
+            variation="name"
+            type="text"
             onChange={handleChange(setNameInput)}
             value={nameInput}
           />
           <Button type="icon" onClick={handleSubmit}>
             <img src={acceptButton} alt="Aceitar" />
           </Button>
-          <Button type="icon" onClick={() => changeVariationTo("edit")}>
+          <Button
+            type="icon"
+            onClick={() => {
+              console.log(customCloseInput);
+              return customCloseInput
+                ? customCloseInput()
+                : changeVariationTo("edit");
+            }}
+          >
             <img src={declineButton} alt="Deletar" />
           </Button>
         </PlayerInfo>
